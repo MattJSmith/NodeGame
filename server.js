@@ -23,14 +23,20 @@ setInterval(function() {
   io.sockets.emit('state', players);
 }, 1000 / 60);
 
-var colours = ['red','blue','green','yellow','pink'];
 
+setInterval(function() {
+  io.sockets.emit('chatState', fullChat);
+}, 2);
+
+var colours = ['red','blue','green','yellow','pink'];
+  
 function randomFromArray(items)
 {
 	return items[Math.floor(Math.random()*items.length)];   
 }
 
 //Player info
+var fullChat = ""
 var players = {}
 //io.on -> when read by everyone (so everyone triggers this)
 io.on('connection', function(socket) {	
@@ -61,4 +67,7 @@ io.on('connection', function(socket) {
 		player.y += 5;
 		}
   });
+  socket.on('sendmessage', function(newMessage) {
+		fullChat = newMessage + "\n" + fullChat;
+		});
 });
