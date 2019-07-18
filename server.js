@@ -68,6 +68,6 @@ io.on('connection', function(socket) {
 		}
   });
   socket.on('sendmessage', function(newMessage) {
-		fullChat = newMessage + "\n" + fullChat;
+		fullChat = newMessage + "<p>" + fullChat;
 		});
 });
