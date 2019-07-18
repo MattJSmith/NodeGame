@@ -26,7 +26,7 @@ setInterval(function() {
 
 setInterval(function() {
   io.sockets.emit('chatState', fullChat);
-}, 2);
+}, 0.5);
 
 var colours = ['red','blue','green','yellow','pink'];
   
@@ -67,7 +67,14 @@ io.on('connection', function(socket) {
 		player.y += 5;
 		}
   });
+  
+  var chatLimit = 15;
+  var chatMessages = []
+  
   socket.on('sendmessage', function(newMessage) {
-		fullChat = newMessage + "<p>" + fullChat;
+		if(newMessage == "" || newMessage == "<p>") return;
+		if(chatMessages.length >= chatLimit) chatMessages.shift();
+		chatMessages.push(newMessage);
+		fullChat = chatMessages.join("<p>");
 		});
 });

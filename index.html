@@ -12,9 +12,13 @@
   </head>
    
   <body>
-	  
-    <canvas id="canvas"></canvas>
-	<div style="width: 800px height: 600px" id="chatWindow"> </div> 
+	<div id ="page" style="width:1050px; height:600px;">
+		<canvas style="float:left" id="canvas"></canvas>
+		<div style="float:right; margin-left: 10px; width:200px">
+			<div style="height:90%; border:1px solid black" id="chatWindow"> </div> 
+			<div style="height:10%; border:1px solid black" id="chatTextTyping"> </div> 
+		</div>
+	</div>
   </body>
  
   <script src="/static/game.js"></script>

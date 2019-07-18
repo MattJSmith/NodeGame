@@ -28,6 +28,9 @@ case 38:
       movement.down = true;
       break;
 	case 13: //enter
+	break;
+	case 8: //backspace
+		  if(chatMessage.length > 0) chatMessage = chatMessage.substring(0, chatMessage.length - 1);
       break;
 	  default: 
 	  if(sendMessage == false) {
@@ -50,6 +53,7 @@ document.addEventListener('keyup', function(event) {
 	  case 40:
       movement.down = false;
       break;
+	  break;
 	  case 13: //enter
       sendMessage = true;
       break;
@@ -64,17 +68,21 @@ setInterval(function() {
 setInterval(function() {
 	if(sendMessage == true){  
      	sendMessage = false;
-	    //chat.innerHTML = chatMessage;
 	    console.log(chatMessage);
 		socket.emit('sendmessage', chatMessage);
 		chatMessage = "";
 	}	
-}, 1000);
+}, 100);
 
 var chat = document.getElementById('chatWindow');
 socket.on('chatState', function(messages) {	    
 	  chat.innerHTML = messages;
 	});
+	
+var currentMessage = document.getElementById('chatTextTyping');
+setInterval(function() {
+    currentMessage.innerHTML = chatMessage;
+}, 0.5);
 
 //canvas
 var canvas = document.getElementById('canvas');
