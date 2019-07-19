@@ -74,9 +74,21 @@ setInterval(function() {
 	}	
 }, 100);
 
+//when client sends, everyone reads and adds to own list (their own local one?)
+
 var chat = document.getElementById('chatWindow');
+/*
 socket.on('chatState', function(messages) {	    
 	  chat.innerHTML = messages;
+	});
+	*/
+var chatLimit = 15;
+var chatMessages = [];
+
+socket.on('incommingMessage', function(message) {	 
+		if(chatMessages.length >= chatLimit) chatMessages.shift();
+		chatMessages.push(message);
+		chat.innerHTML = chatMessages.join("<p>");
 	});
 	
 var currentMessage = document.getElementById('chatTextTyping');

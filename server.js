@@ -23,11 +23,11 @@ setInterval(function() {
   io.sockets.emit('state', players);
 }, 1000 / 60);
 
-
+/*
 setInterval(function() {
   io.sockets.emit('chatState', fullChat);
 }, 0.5);
-
+*/
 var colours = ['red','blue','green','yellow','pink'];
   
 function randomFromArray(items)
@@ -38,6 +38,9 @@ function randomFromArray(items)
 //Player info
 var fullChat = ""
 var players = {}
+var chatLimit = 15;
+var chatMessages = [];
+  
 //io.on -> when read by everyone (so everyone triggers this)
 io.on('connection', function(socket) {	
 //socket.on -> specific socket reads (e.g. new player connects, this only runs once for that player.)
@@ -66,15 +69,19 @@ io.on('connection', function(socket) {
 		if (data.down) {
 		player.y += 5;
 		}
-  });
-  
-  var chatLimit = 15;
-  var chatMessages = []
-  
+  });  
+   socket.on('sendmessage', function(newMessage) {
+	  console.log(newMessage);
+		if(newMessage == "" || newMessage == "<p>") return;		
+			io.sockets.emit('incommingMessage', newMessage);
+		});
+  /*
   socket.on('sendmessage', function(newMessage) {
+	  console.log(newMessage);
 		if(newMessage == "" || newMessage == "<p>") return;
+		
 		if(chatMessages.length >= chatLimit) chatMessages.shift();
 		chatMessages.push(newMessage);
 		fullChat = chatMessages.join("<p>");
-		});
-});
+		});*/
+});  
